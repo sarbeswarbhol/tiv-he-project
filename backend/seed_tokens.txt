@@ -1,0 +1,60 @@
+
+============================================================
+SEED RUN @ 2026-04-19 13:24:23.341474
+============================================================
+
+============================================================
+SEED RUN @ 2026-04-19 13:25:54.682420
+============================================================
+email: admin@test.com
+password: admin123
+role: admin
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwicm9sZSI6ImFkbWluIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc3NjY3MTc1Nn0.ONLWvLR_43749EzJqRpzY-jro1S1nZMZ692YgsQjHgM
+----------------------------------------
+email: issuer@test.com
+password: issuer123
+role: issuer
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwicm9sZSI6Imlzc3VlciIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NzY2NzE3NTh9.8gXIrAxweHbLco3Fcv0Wueox9SkXoCvgh9kOPTIIBXI
+----------------------------------------
+email: holder@test.com
+password: holder123
+role: holder
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzIiwicm9sZSI6ImhvbGRlciIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NzY2NzE3NjB9.RyE06_OjOTTipMeDmXO4irZp4K50J0Gyn5DtkKbatO0
+----------------------------------------
+email: verifier@test.com
+password: verifier123
+role: verifier
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0Iiwicm9sZSI6InZlcmlmaWVyIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc3NjY3MTc2MX0.3PfnHGMzrtP5sRSFGUUFirSAukaEos5vSyBhdzxH_OQ
+----------------------------------------
+email: admin_na@test.com
+password: admin123
+role: admin
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Iiwicm9sZSI6ImFkbWluIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc3NjY3MTc2M30.mieldwjjCzjS_R1LON3UDPSzPAlanI9pvRkP6mZyDEM
+----------------------------------------
+email: issuer_na@test.com
+password: issuer123
+role: issuer
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Iiwicm9sZSI6Imlzc3VlciIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NzY2NzE3NjR9.yLVtpB0MsdBBg6vwxAQSjCTunHCxC0ZSzg5Yy59ofzU
+----------------------------------------
+email: holder_na@test.com
+password: holder123
+role: holder
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3Iiwicm9sZSI6ImhvbGRlciIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NzY2NzE3NjZ9.4xks_iDrTvIGu3oHfdUkUDmeNQY1Xf2hbY_8cedv0YE
+----------------------------------------
+email: verifier_na@test.com
+password: verifier123
+role: verifier
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4Iiwicm9sZSI6InZlcmlmaWVyIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc3NjY3MTc2OH0.qEsJfEajnlBc2eEocykW471I96N4XbtzAClCD4HNDn8
+----------------------------------------
+
+============================================================
+SEED RUN @ 2026-04-19 17:06:51.064075
+============================================================
+
+============================================================
+SEED RUN @ 2026-04-19 17:09:54.920619
+============================================================
+
+============================================================
+SEED RUN @ 2026-04-19 17:19:50.179389
+============================================================
