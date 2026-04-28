@@ -1,50 +1,45 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState } from "react";
 import api from '../api/axios';
-
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
-  // ✅ After: reads localStorage synchronously during first render
-  function getStoredUser() {
-    try { return JSON.parse(localStorage.getItem("tiv_user")); }
-    catch { return null; }
-  }
-  const [user, setUser] = useState(getStoredUser);  
 
-  // 🔁 Load user from localStorage on app start
-  useEffect(() => {
-    const storedUser = localStorage.getItem("tiv_user");
-    if (storedUser) {
-      try {
-        setUser(JSON.parse(storedUser));
-      } catch {
-        localStorage.removeItem("tiv_user");
-      }
+  // ✅ Read once (no useEffect needed)
+  function getStoredUser() {
+    try {
+      const u = JSON.parse(localStorage.getItem("tiv_user"));
+      return u ? { ...u, role: u.role?.toLowerCase() } : null;
+    } catch {
+      return null;
     }
-  }, []);
+  }
+
+  const [user, setUser] = useState(getStoredUser);
 
   // 🔐 LOGIN
   const login = async (email, password) => {
     setLoading(true);
     try {
-      const res = await api.post("/auth/login", {
-        email,
-        password,
-      });
+      const res = await api.post("/auth/login", { email, password });
 
       const { access_token, user } = res.data;
 
+      const normalizedUser = {
+        ...user,
+        role: user.role?.toLowerCase(),
+      };
+
       // ✅ store token + user
       localStorage.setItem("access_token", access_token);
-      localStorage.setItem("tiv_user", JSON.stringify(user));
+      localStorage.setItem("tiv_user", JSON.stringify(normalizedUser));
 
-      setUser(user);
+      setUser(normalizedUser);
 
       return {
         success: true,
-        role: user.role.toLowerCase(),
+        role: normalizedUser.role,
       };
     } catch (err) {
       return {

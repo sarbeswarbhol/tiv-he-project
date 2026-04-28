@@ -93,6 +93,7 @@ def get_credential(
 
     data = decrypt_dict(cred.encrypted_data)
 
+    print("Decrypted credential data:", data)
     masked_identifiers = {
         k: mask_identifier(k, decrypt_value(v))
         for k, v in data.get("identifiers", {}).items()
@@ -109,6 +110,8 @@ def get_credential(
         "created_at": cred.created_at,
         "revoked": cred.revoked,
         "masked_identifiers": masked_identifiers,
+        "basic": data.get("basic", {}),
+        "attributes": data.get("attributes", {}),
     }
 
 

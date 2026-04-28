@@ -8,9 +8,9 @@ from __future__ import annotations
 
 from datetime import datetime
 from enum import Enum
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 
-from pydantic import BaseModel, EmailStr, field_validator, model_validator
+from pydantic import BaseModel, EmailStr, field_validator, model_validator, Field
 import re
 
 
@@ -249,6 +249,8 @@ class CredentialSummary(BaseModel):
     issuer_id: str
     holder_id: Optional[str] = None
     masked_identifiers: dict[str, str] = {}
+    basic: Dict[str, Any] = Field(default_factory=dict)
+    attributes: Dict[str, Any] = Field(default_factory=dict)
 
     model_config = {"from_attributes": True}
 
