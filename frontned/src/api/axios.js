@@ -15,7 +15,7 @@ api.interceptors.response.use(
   (res) => res,
   (err) => {
     if (err.response?.status === 401) {
-      localStorage.removeItem('access_token'); // ✅ FIXED
+      localStorage.removeItem('access_token');
       localStorage.removeItem('tiv_user');
       window.location.href = '/login';
     }

@@ -7,157 +7,140 @@ import {
   FiPlusSquare, FiList, FiCreditCard, FiClock, FiSearch, FiActivity,
 } from 'react-icons/fi';
 
+/* ── Navigation config ──────────────────────────────────── */
 const NAV = {
-  admin:    [
-    { to: '/admin',          label: 'Users',        icon: FiUsers },
-  ],
-  issuer:   [
-    { to: '/issuer',         label: 'Issue',        icon: FiPlusSquare },
-    { to: '/issuer/list',    label: 'Credentials',  icon: FiList },
-  ],
-  holder:   [
-    { to: '/holder',         label: 'Credentials',  icon: FiCreditCard },
-    { to: '/holder/history', label: 'History',      icon: FiClock },
-  ],
-  verifier: [
-    { to: '/verifier',       label: 'Verify',       icon: FiSearch },
-    { to: '/verifier/history', label: 'History',    icon: FiActivity },
-  ],
+  admin:    [{ to: '/admin',            label: 'Users',       icon: FiUsers }],
+  issuer:   [{ to: '/issuer',           label: 'Issue',       icon: FiPlusSquare },
+             { to: '/issuer/list',      label: 'Credentials', icon: FiList }],
+  holder:   [{ to: '/holder',           label: 'Credentials', icon: FiCreditCard },
+             { to: '/holder/history',   label: 'History',     icon: FiClock }],
+  verifier: [{ to: '/verifier',         label: 'Verify',      icon: FiSearch },
+             { to: '/verifier/history', label: 'History',     icon: FiActivity }],
 };
 
-const ROLE_COLOR = {
-  admin: '#ff00ff', issuer: '#00d4ff', holder: '#00ff88', verifier: '#f59e0b',
+/* ── Role theming — edit here to change per-role colors ─── */
+const ROLE = {
+  admin:    { color: 'var(--c-admin)',    icon: '⚡', label: 'Admin' },
+  issuer:   { color: 'var(--c-issuer)',   icon: '🔏', label: 'Issuer' },
+  holder:   { color: 'var(--c-holder)',   icon: '🪪', label: 'Holder' },
+  verifier: { color: 'var(--c-verifier)', icon: '🔍', label: 'Verifier' },
 };
 
-const ROLE_ICON = {
-  admin: '⚡', issuer: '🔏', holder: '🪪', verifier: '🔍',
-};
+/* ── Sidebar ─────────────────────────────────────────────── */
+function Sidebar({ role, user, color, navItems, onClose, onLogout }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
 
-export default function DashboardLayout({ children, role }) {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  const handleLogout = () => {
-    logout();
-    toast.success('Session terminated');
-    navigate('/login');
-  };
-
-  const color = ROLE_COLOR[role] || '#00d4ff';
-  const navItems = NAV[role] || [];
-  const [time, setTime] = useState(new Date());
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTime(new Date());
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const Sidebar = ({ mobile = false }) => (
-    <div className={`flex flex-col h-full ${mobile ? '' : ''}`}>
       {/* Brand */}
-      <div className="p-6 border-b" style={{ borderColor: 'rgba(0,212,255,0.1)' }}>
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl flex items-center justify-center glass"
-            style={{ boxShadow: `0 0 20px ${color}44` }}>
-            <FiShield size={18} style={{ color }} />
+      <div style={{ padding: '22px 20px 18px', borderBottom: '1px solid var(--border-subtle)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div style={{ width: 36, height: 36, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-raised)', border: `1px solid ${color}44` }}>
+            <FiShield size={17} style={{ color }} />
           </div>
           <div>
-            <div className="font-display text-sm font-bold tracking-widest" style={{ color }}>TIV-HE</div>
-            <div className="font-mono text-xs text-slate-600">v2.0 · encrypted</div>
+            <div style={{ fontFamily: 'Outfit,sans-serif', fontWeight: 800, fontSize: 14, letterSpacing: '0.12em', color }}>TIV-HE</div>
+            <div className="mono" style={{ fontSize: 10, color: 'var(--text-muted)' }}>v2.0 · encrypted</div>
           </div>
         </div>
       </div>
 
       {/* User badge */}
-      <div className="px-4 py-4 border-b mx-3 mt-3 glass rounded-xl" style={{ borderColor: `${color}33` }}>
-        <div className="flex items-center gap-2">
-          <span className="text-lg">{ROLE_ICON[role]}</span>
+      <div style={{ padding: '14px 14px 0' }}>
+        <div style={{ padding: '10px 12px', borderRadius: 10, background: 'var(--bg-surface)', border: `1px solid ${color}33`, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <span style={{ fontSize: 18 }}>{ROLE[role]?.icon}</span>
           <div>
-            <div className="font-mono text-xs font-semibold" style={{ color }}>{user?.email?.split('@')[0]}</div>
-            <div className="font-mono text-xs text-slate-500 capitalize">{role} node</div>
+            <div className="mono" style={{ fontSize: 12, fontWeight: 600, color }}>{user?.email?.split('@')[0]}</div>
+            <div className="mono" style={{ fontSize: 11, color: 'var(--text-muted)' }}>{ROLE[role]?.label} node</div>
           </div>
         </div>
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 px-3 py-4 space-y-1">
+      <nav style={{ flex: 1, padding: '12px 10px', display: 'flex', flexDirection: 'column', gap: 3 }}>
         {navItems.map(({ to, label, icon: Icon }) => (
           <NavLink key={to} to={to} end={to === `/${role}`}
-            className={({ isActive }) =>
-              `sidebar-item flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-mono transition-all ${isActive ? 'active' : 'text-slate-400'}`
-            }
-            onClick={() => setSidebarOpen(false)}>
-            <Icon size={16} />
+            className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+            onClick={onClose}>
+            <Icon size={15} />
             {label}
           </NavLink>
         ))}
       </nav>
 
       {/* Logout */}
-      <div className="p-4 border-t" style={{ borderColor: 'rgba(0,212,255,0.08)' }}>
-        <button onClick={handleLogout}
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-mono text-slate-400
-            hover:bg-red-500/10 hover:text-red-400 hover:border-red-500/30 border border-transparent transition-all">
-          <FiLogOut size={16} /> Disconnect
+      <div style={{ padding: '10px 10px 16px', borderTop: '1px solid var(--border-subtle)' }}>
+        <button onClick={onLogout}
+          style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 10, padding: '9px 12px', borderRadius: 8, fontSize: 13, fontWeight: 500, color: 'var(--text-muted)', background: 'none', border: '1px solid transparent', cursor: 'pointer', transition: 'all .15s', fontFamily: 'Outfit,sans-serif' }}
+          onMouseEnter={e => { e.currentTarget.style.color = 'var(--c-red)'; e.currentTarget.style.background = 'rgba(248,113,113,.08)'; e.currentTarget.style.borderColor = 'rgba(248,113,113,.25)'; }}
+          onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-muted)'; e.currentTarget.style.background = 'none'; e.currentTarget.style.borderColor = 'transparent'; }}>
+          <FiLogOut size={14} /> Disconnect
         </button>
       </div>
     </div>
   );
+}
+
+/* ── Layout ──────────────────────────────────────────────── */
+export default function DashboardLayout({ children, role }) {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [time, setTime] = useState(new Date());
+
+  useEffect(() => {
+    const t = setInterval(() => setTime(new Date()), 1000);
+    return () => clearInterval(t);
+  }, []);
+
+  const handleLogout = () => { logout(); toast.success('Session terminated'); navigate('/login'); };
+  const color = ROLE[role]?.color || 'var(--c-accent)';
+  const navItems = NAV[role] || [];
 
   return (
-    <div className="min-h-screen flex bg-grid hex-bg" style={{ background: '#020408' }}>
-      {/* Desktop sidebar */}
-      <aside className="hidden md:flex flex-col w-56 flex-shrink-0 glass border-r" style={{ borderColor: 'rgba(0,212,255,0.1)', minHeight: '100vh' }}>
-        <Sidebar />
+    <div className="app-bg" style={{ minHeight: '100vh', display: 'flex' }}>
+
+      {/* Desktop Sidebar */}
+      <aside className="hidden md:flex flex-col" style={{ width: 'var(--sidebar-w)', flexShrink: 0, minHeight: '100vh', borderRight: '1px solid var(--border-subtle)', background: 'rgba(9,9,15,0.6)', backdropFilter: 'blur(20px)' }}>
+        <Sidebar role={role} user={user} color={color} navItems={navItems} onClose={() => {}} onLogout={handleLogout} />
       </aside>
 
-      {/* Mobile sidebar drawer */}
-      {sidebarOpen && (
-        <div className="fixed inset-0 z-50 md:hidden">
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setSidebarOpen(false)} />
-          <aside className="absolute left-0 top-0 bottom-0 w-64 glass border-r flex flex-col z-10"
-            style={{ borderColor: 'rgba(0,212,255,0.1)' }}>
-            <div className="flex justify-end p-4">
-              <button onClick={() => setSidebarOpen(false)} className="text-slate-400 hover:text-white">
-                <FiX size={20} />
-              </button>
-            </div>
-            <Sidebar mobile />
+      {/* Mobile Drawer */}
+      {drawerOpen && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 50 }} className="md:hidden">
+          <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,.65)', backdropFilter: 'blur(4px)' }} onClick={() => setDrawerOpen(false)} />
+          <aside style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 240, background: 'rgba(9,9,15,0.96)', borderRight: '1px solid var(--border-subtle)', backdropFilter: 'blur(20px)', display: 'flex', flexDirection: 'column', zIndex: 10 }}>
+            <button onClick={() => setDrawerOpen(false)} style={{ position: 'absolute', top: 14, right: 14, color: 'var(--text-muted)', background: 'none', border: 'none', cursor: 'pointer' }}>
+              <FiX size={18} />
+            </button>
+            <Sidebar role={role} user={user} color={color} navItems={navItems} onClose={() => setDrawerOpen(false)} onLogout={handleLogout} />
           </aside>
         </div>
       )}
 
-      {/* Main content */}
-      <div className="flex-1 flex flex-col min-w-0">
-        {/* Topbar */}
-        <header className="flex items-center justify-between px-4 md:px-8 py-4 glass border-b sticky top-0 z-40"
-          style={{ borderColor: 'rgba(0,212,255,0.1)' }}>
-          <div className="flex items-center gap-4">
-            <button className="md:hidden text-slate-400 hover:text-white" onClick={() => setSidebarOpen(true)}>
-              <FiMenu size={22} />
+      {/* Main */}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+
+        {/* Top bar */}
+        <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 24px', height: 58, borderBottom: '1px solid var(--border-subtle)', background: 'rgba(9,9,15,0.7)', backdropFilter: 'blur(16px)', position: 'sticky', top: 0, zIndex: 40 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+            <button className="md:hidden" onClick={() => setDrawerOpen(true)} style={{ color: 'var(--text-muted)', background: 'none', border: 'none', cursor: 'pointer', display: 'flex' }}>
+              <FiMenu size={20} />
             </button>
             <div>
-              <h1 className="font-display text-sm font-bold tracking-widest" style={{ color }}>
-                {role.toUpperCase()} CONSOLE
-              </h1>
-              <div className="flex items-center gap-2 mt-0.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-green-400 pulse-dot" />
-                <span className="font-mono text-xs text-slate-600">Chain: ACTIVE · Block #441972</span>
+              <div style={{ fontFamily: 'Outfit,sans-serif', fontWeight: 800, fontSize: 13, letterSpacing: '0.12em', color }}>{role.toUpperCase()} CONSOLE</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 1 }}>
+                <span className="pulse-dot" style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--c-green)', display: 'inline-block' }} />
+                <span className="mono" style={{ fontSize: 10, color: 'var(--text-muted)' }}>Chain: ACTIVE · Block #441972</span>
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="hidden sm:block font-mono text-xs text-slate-600 px-3 py-1.5 glass rounded-lg">
-              {time.toLocaleTimeString('en-US', { hour12: false })}
-            </div>
+          <div className="mono hidden sm:flex" style={{ fontSize: 12, color: 'var(--text-muted)', padding: '5px 12px', borderRadius: 7, background: 'var(--bg-surface)', border: '1px solid var(--border-subtle)' }}>
+            {time.toLocaleTimeString('en-US', { hour12: false })}
           </div>
         </header>
 
-        {/* Page content */}
-        <main className="flex-1 p-4 md:p-8">
+        {/* Content */}
+        <main className="fade-up" style={{ flex: 1, padding: '28px 24px' }}>
           {children}
         </main>
       </div>

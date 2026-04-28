@@ -1,99 +1,103 @@
-// Spinner
+import { useState } from 'react';
+
+/* ─── Spinner ─────────────────────────────────────────────── */
 export function Spinner({ size = 20 }) {
   return (
-    <svg className="cyber-spin" width={size} height={size} viewBox="0 0 24 24" fill="none">
-      <circle className="opacity-20" cx="12" cy="12" r="10" stroke="#00d4ff" strokeWidth="3" />
-      <path className="opacity-80" fill="#00d4ff" d="M4 12a8 8 0 018-8v8z" />
+    <svg className="spin" width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <circle cx="12" cy="12" r="10" stroke="var(--c-accent)" strokeWidth="2.5" strokeOpacity=".2" />
+      <path fill="var(--c-accent)" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
     </svg>
   );
 }
 
-// Skeleton loader
-export function Skeleton({ className = '' }) {
-  return <div className={`skeleton ${className}`} />;
+/* ─── Skeleton ────────────────────────────────────────────── */
+export function Skeleton({ className = '', style = {} }) {
+  return <div className={`skeleton ${className}`} style={style} />;
 }
 
-// Empty state
+/* ─── Empty State ─────────────────────────────────────────── */
 export function EmptyState({ icon = '📭', title = 'No data', message = 'Nothing to display yet.' }) {
   return (
-    <div className="flex flex-col items-center justify-center py-20 text-center glass rounded-2xl">
-      <div className="text-5xl mb-4 float-anim">{icon}</div>
-      <h3 className="font-display text-base font-bold text-slate-300 tracking-wider mb-2">{title}</h3>
-      <p className="font-mono text-xs text-slate-600 max-w-xs">{message}</p>
+    <div className="flex flex-col items-center justify-center py-20 text-center">
+      <div className="text-4xl mb-4 float">{icon}</div>
+      <h3 style={{ fontFamily: 'Outfit,sans-serif', fontWeight: 700, fontSize: 15, color: 'var(--text-secondary)', marginBottom: 6 }}>{title}</h3>
+      <p className="mono" style={{ fontSize: 12, color: 'var(--text-muted)', maxWidth: 260 }}>{message}</p>
     </div>
   );
 }
 
-// Badge
+/* ─── Badge ───────────────────────────────────────────────── */
 export function Badge({ variant = 'info', children }) {
-  return (
-    <span className={`badge-${variant} inline-flex items-center px-2.5 py-0.5 rounded-full font-mono text-xs font-semibold`}>
-      {children}
-    </span>
-  );
+  const cls = { success: 'badge-success', error: 'badge-error', warning: 'badge-warning', info: 'badge-info' };
+  return <span className={`badge ${cls[variant] || 'badge-info'}`}>{children}</span>;
 }
 
-// Stat card
-export function StatCard({ label, value, icon, color = '#00d4ff', sub }) {
+/* ─── Stat Card ───────────────────────────────────────────── */
+export function StatCard({ label, value, icon, color = 'var(--c-accent)', loading }) {
   return (
-    <div className="glass glass-hover rounded-2xl p-5" style={{ borderColor: `${color}22` }}>
-      <div className="flex items-start justify-between mb-3">
-        <div className="w-10 h-10 rounded-xl flex items-center justify-center"
-          style={{ background: `${color}15`, color, fontSize: 20 }}>
-          {icon}
-        </div>
-        <span className="font-mono text-xs text-slate-600 uppercase tracking-widest">{label}</span>
+    <div className="card card-hover" style={{ padding: 20 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+        <span style={{ fontSize: 22 }}>{icon}</span>
+        <span className="label" style={{ margin: 0 }}>{label}</span>
       </div>
-      <div className="font-display text-3xl font-black" style={{ color }}>{value}</div>
-      {sub && <div className="font-mono text-xs text-slate-500 mt-1">{sub}</div>}
+      {loading
+        ? <Skeleton style={{ height: 36, width: 80 }} />
+        : <div style={{ fontFamily: 'Outfit,sans-serif', fontWeight: 800, fontSize: 34, color, lineHeight: 1 }}>{value}</div>
+      }
     </div>
   );
 }
 
-// Section header
+/* ─── Section Header ──────────────────────────────────────── */
 export function SectionHeader({ title, subtitle, action }) {
   return (
-    <div className="flex items-center justify-between mb-6">
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 20px 14px', borderBottom: '1px solid var(--border-subtle)' }}>
       <div>
-        <h2 className="font-display text-lg font-bold text-slate-100 tracking-wider">{title}</h2>
-        {subtitle && <p className="font-mono text-xs text-slate-500 mt-1">{subtitle}</p>}
+        <h2 style={{ fontFamily: 'Outfit,sans-serif', fontWeight: 700, fontSize: 15, color: 'var(--text-primary)', marginBottom: subtitle ? 2 : 0 }}>{title}</h2>
+        {subtitle && <p className="mono" style={{ fontSize: 11, color: 'var(--text-muted)' }}>{subtitle}</p>}
       </div>
       {action}
     </div>
   );
 }
 
-// Copy button
+/* ─── Copy Button ─────────────────────────────────────────── */
 export function CopyBtn({ text, label = 'Copy' }) {
   const [copied, setCopied] = useState(false);
-
-  const copy = () => {
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
+  const copy = () => { navigator.clipboard.writeText(text); setCopied(true); setTimeout(() => setCopied(false), 2000); };
   return (
-    <button onClick={copy}
-      className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg font-mono text-xs transition-all
-        ${copied ? 'badge-success' : 'btn-neon'}`}>
+    <button onClick={copy} className={`btn btn-sm ${copied ? 'btn-success' : 'btn-ghost'}`}>
       {copied ? '✓ Copied' : label}
     </button>
   );
 }
 
-// We need useState imported
-import { useState } from 'react';
-
-// Result indicator
+/* ─── Result Indicator ────────────────────────────────────── */
 export function ResultIndicator({ value, label }) {
   const isTrue = value === true || value === 'true' || String(value).toLowerCase() === 'true';
   return (
-    <div className={`${isTrue ? 'result-true' : 'result-false'} rounded-2xl p-6 flex flex-col items-center gap-2 transition-all`}>
-      <div className={`font-display text-5xl font-black ${isTrue ? 'neon-green-text' : 'text-red-400'}`}>
+    <div className={isTrue ? 'result-true' : 'result-false'} style={{ padding: 32, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
+      <div style={{ fontFamily: 'Outfit,sans-serif', fontWeight: 800, fontSize: 48, color: isTrue ? 'var(--c-green)' : 'var(--c-red)', lineHeight: 1 }}>
         {isTrue ? 'TRUE' : 'FALSE'}
       </div>
-      <div className="font-mono text-xs text-slate-400 uppercase tracking-widest">{label}</div>
+      <div className="label" style={{ margin: 0 }}>{label}</div>
+    </div>
+  );
+}
+
+/* ─── Field Input (with label + icon slot) ────────────────── */
+export function Field({ label, icon, children }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+      {label && <span className="label">{label}</span>}
+      <div style={{ position: 'relative' }}>
+        {icon && (
+          <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', display: 'flex', pointerEvents: 'none' }}>
+            {icon}
+          </span>
+        )}
+        {children}
+      </div>
     </div>
   );
 }

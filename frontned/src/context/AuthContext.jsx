@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }) => {
 
       return {
         success: true,
-        role: user.role,
+        role: user.role.toLowerCase(),
       };
     } catch (err) {
       return {
