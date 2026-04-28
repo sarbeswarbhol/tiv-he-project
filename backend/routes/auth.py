@@ -30,7 +30,14 @@ _pwd = CryptContext(
 # ── Helper ─────────────────────────────────────────────
 
 def serialize_user(user: User) -> UserOut:
-    return UserOut.model_validate(user)
+    data = UserOut.model_validate(user).model_dump()
+
+    if user.role == "holder":
+        data["default_share_fields"] = user.default_share_fields or []
+    else:
+        data["default_share_fields"] = None
+
+    return UserOut(**data)
 
 
 def normalize(value: str) -> str:
@@ -69,6 +76,10 @@ def register(body: RegisterRequest, db: Session = Depends(get_db)):
             status_code=409,
             detail="Username already taken"
         )
+    default_fields = None
+
+    if body.role == "holder":
+        default_fields = ["full_name", "age"] 
 
     user = User(
         public_id=generate_unique_role_id(db, body.role),
@@ -78,7 +89,8 @@ def register(body: RegisterRequest, db: Session = Depends(get_db)):
         password_hash=_pwd.hash(body.password),
         role=body.role,
         is_approved=False,
-        status="pending"
+        status="pending",
+        default_share_fields=default_fields
     )
 
     db.add(user)

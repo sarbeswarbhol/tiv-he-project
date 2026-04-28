@@ -173,13 +173,13 @@ function IssueForm() {
         
         {/* Holder Selection with Search Dropdown */}
         <div className="space-y-1.5">
-          <label className="font-mono text-xs text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
+          <label className="font-mono text-xs text-slate-00 uppercase tracking-widest flex items-center gap-1.5">
             <FiUsers size={11} /> Select Holder
           </label>
           
           <div className="relative">
             <div className="relative">
-              <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
+              <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-00" size={16} />
               <input
                 value={searchTerm}
                 onChange={(e) => {
@@ -191,11 +191,11 @@ function IssueForm() {
                 }}
                 onFocus={() => setShowDropdown(true)}
                 placeholder="Search by name, email, or public ID..."
-                className="input-cyber w-full pl-10 pr-10 py-3 rounded-xl font-mono text-sm"
+                className="input-cyber w-full pl-10 pr-10 py-3 rounded-xl font-mono text-sm text-slate-200 placeholder:text-slate-500"
                 required
               />
               <FiChevronDown 
-                className={`absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 transition-transform cursor-pointer ${showDropdown ? 'rotate-180' : ''}`}
+                className={`absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 transition-transform cursor-pointer ${showDropdown ? 'rotate-180' : ''}`}
                 size={16}
                 onClick={() => setShowDropdown(!showDropdown)}
               />
@@ -212,7 +212,7 @@ function IssueForm() {
                     <Spinner size={24} />
                   </div>
                 ) : filteredHolders.length === 0 ? (
-                  <div className="p-4 text-center text-slate-500 text-sm">
+                  <div className="p-4 text-center text-slate-400 text-sm">
                     No holders found
                   </div>
                 ) : (
@@ -224,7 +224,7 @@ function IssueForm() {
                       className="w-full p-3 text-left hover:bg-white/5 transition-colors border-b border-white/5 last:border-0"
                     >
                       <div className="font-mono text-sm text-slate-200">{holder.name}</div>
-                      <div className="font-mono text-xs text-slate-500">{holder.email}</div>
+                      <div className="font-mono text-xs text-slate-400">{holder.email}</div>
                       <div className="font-mono text-[10px] text-cyan-400 mt-1">{holder.public_id}</div>
                     </button>
                   ))
@@ -248,13 +248,13 @@ function IssueForm() {
 
         {/* Credential Type */}
         <div className="space-y-1.5">
-          <label className="font-mono text-xs text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
+          <label className="font-mono text-xs text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
             <FiFileText size={11} /> Credential Type
           </label>
           <select
             value={form.credential_type}
             onChange={e => setForm(prev => ({ ...prev, credential_type: e.target.value }))}
-            className="input-cyber w-full px-4 py-3 rounded-xl font-mono text-sm"
+            className="input-cyber w-full px-4 py-3 rounded-xl font-mono text-sm text-slate-200"
             required
           >
             <option value="identity">Identity Credential</option>
@@ -272,25 +272,25 @@ function IssueForm() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="font-mono text-xs text-slate-500">Full Name</label>
+              <label className="font-mono text-xs text-slate-400">Full Name</label>
               <input
                 value={form.basic.full_name}
                 onChange={e => updateBasic('full_name', e.target.value)}
                 placeholder="As per official document"
                 required
-                className="input-cyber w-full px-4 py-2.5 rounded-xl font-mono text-sm"
+                className="input-cyber w-full px-4 py-2.5 rounded-xl font-mono text-sm text-slate-200 placeholder:text-slate-500"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="font-mono text-xs text-slate-500">Gender</label>
+              <label className="font-mono text-xs text-slate-400">Gender</label>
               <select
                 value={form.basic.gender}
                 onChange={e => updateBasic('gender', e.target.value)}
                 required
-                className="input-cyber w-full px-4 py-2.5 rounded-xl font-mono text-sm"
+                className="input-cyber w-full px-4 py-2.5 rounded-xl font-mono text-sm text-slate-200"
               >
-                <option value="">Select Gender</option>
+                <option value="" className="text-slate-400">Select Gender</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
                 <option value="other">Other</option>
@@ -298,13 +298,13 @@ function IssueForm() {
             </div>
 
             <div className="space-y-1.5">
-              <label className="font-mono text-xs text-slate-500">State</label>
+              <label className="font-mono text-xs text-slate-400">State</label>
               <input
                 value={form.basic.state}
                 onChange={e => updateBasic('state', e.target.value)}
                 placeholder="State of residence"
                 required
-                className="input-cyber w-full px-4 py-2.5 rounded-xl font-mono text-sm"
+                className="input-cyber w-full px-4 py-2.5 rounded-xl font-mono text-sm text-slate-200 placeholder:text-slate-500"
               />
             </div>
           </div>
@@ -318,24 +318,24 @@ function IssueForm() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="font-mono text-xs text-slate-500">Age</label>
+              <label className="font-mono text-xs text-slate-400">Age</label>
               <input
                 type="number"
                 value={form.attributes.age}
                 onChange={e => updateAttribute('age', parseInt(e.target.value) || 0)}
                 placeholder="Age"
-                className="input-cyber w-full px-4 py-2.5 rounded-xl font-mono text-sm"
+                className="input-cyber w-full px-4 py-2.5 rounded-xl font-mono text-sm text-slate-200 placeholder:text-slate-500"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="font-mono text-xs text-slate-500">Citizenship Status</label>
+              <label className="font-mono text-xs text-slate-400">Citizenship Status</label>
               <select
                 value={form.attributes.citizenship_status}
                 onChange={e => updateAttribute('citizenship_status', e.target.value)}
-                className="input-cyber w-full px-4 py-2.5 rounded-xl font-mono text-sm"
+                className="input-cyber w-full px-4 py-2.5 rounded-xl font-mono text-sm text-slate-200"
               >
-                <option value="">Select Status</option>
+                <option value="" className="text-slate-400">Select Status</option>
                 <option value="citizen">Citizen</option>
                 <option value="permanent resident">Permanent Resident</option>
                 <option value="non-citizen">Non-Citizen</option>
@@ -344,13 +344,13 @@ function IssueForm() {
             </div>
 
             <div className="space-y-1.5">
-              <label className="font-mono text-xs text-slate-500">Education Level</label>
+              <label className="font-mono text-xs text-slate-400">Education Level</label>
               <select
                 value={form.attributes.education_level}
                 onChange={e => updateAttribute('education_level', e.target.value)}
-                className="input-cyber w-full px-4 py-2.5 rounded-xl font-mono text-sm"
+                className="input-cyber w-full px-4 py-2.5 rounded-xl font-mono text-sm text-slate-200"
               >
-                <option value="">Select Level</option>
+                <option value="" className="text-slate-400">Select Level</option>
                 <option value="high school">High School</option>
                 <option value="bachelor">Bachelor's Degree</option>
                 <option value="master">Master's Degree</option>
@@ -360,13 +360,13 @@ function IssueForm() {
             </div>
 
             <div className="space-y-1.5">
-              <label className="font-mono text-xs text-slate-500">Marital Status</label>
+              <label className="font-mono text-xs text-slate-400">Marital Status</label>
               <select
                 value={form.attributes.marital_status}
                 onChange={e => updateAttribute('marital_status', e.target.value)}
-                className="input-cyber w-full px-4 py-2.5 rounded-xl font-mono text-sm"
+                className="input-cyber w-full px-4 py-2.5 rounded-xl font-mono text-sm text-slate-200"
               >
-                <option value="">Select Status</option>
+                <option value="" className="text-slate-400">Select Status</option>
                 <option value="single">Single</option>
                 <option value="married">Married</option>
                 <option value="divorced">Divorced</option>
@@ -383,7 +383,7 @@ function IssueForm() {
               className={`flex items-center justify-between p-3 rounded-xl border transition-all
                 ${form.attributes.license_validity
                   ? 'border-green-400/40 bg-green-400/10 text-green-400'
-                  : 'border-slate-700/50 text-slate-500 hover:border-slate-600'}`}
+                  : 'border-slate-700/50 text-slate-400 hover:text-slate-300 hover:border-slate-600'}`}
             >
               <span className="font-mono text-sm">Driving License Valid</span>
               {form.attributes.license_validity ? <FiCheck size={16} /> : <FiX size={16} />}
@@ -395,7 +395,7 @@ function IssueForm() {
               className={`flex items-center justify-between p-3 rounded-xl border transition-all
                 ${form.attributes.tax_compliance
                   ? 'border-green-400/40 bg-green-400/10 text-green-400'
-                  : 'border-slate-700/50 text-slate-500 hover:border-slate-600'}`}
+                  : 'border-slate-700/50 text-slate-400 hover:text-slate-300 hover:border-slate-600'}`}
             >
               <span className="font-mono text-sm">Tax Compliant</span>
               {form.attributes.tax_compliance ? <FiCheck size={16} /> : <FiX size={16} />}
@@ -411,62 +411,62 @@ function IssueForm() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="font-mono text-xs text-slate-500">Aadhaar Number</label>
+              <label className="font-mono text-xs text-slate-400">Aadhaar Number</label>
               <input
                 value={form.identifiers.aadhaar_number}
                 onChange={e => updateIdentifier('aadhaar_number', e.target.value)}
                 placeholder="12-digit Aadhaar number"
-                className="input-cyber w-full px-4 py-2.5 rounded-xl font-mono text-sm"
+                className="input-cyber w-full px-4 py-2.5 rounded-xl font-mono text-sm text-slate-200 placeholder:text-slate-500"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="font-mono text-xs text-slate-500">PAN Number</label>
+              <label className="font-mono text-xs text-slate-400">PAN Number</label>
               <input
                 value={form.identifiers.pan_number}
                 onChange={e => updateIdentifier('pan_number', e.target.value)}
                 placeholder="10-digit PAN number"
-                className="input-cyber w-full px-4 py-2.5 rounded-xl font-mono text-sm"
+                className="input-cyber w-full px-4 py-2.5 rounded-xl font-mono text-sm text-slate-200 placeholder:text-slate-500"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="font-mono text-xs text-slate-500">Voter ID</label>
+              <label className="font-mono text-xs text-slate-400">Voter ID</label>
               <input
                 value={form.identifiers.voter_id}
                 onChange={e => updateIdentifier('voter_id', e.target.value)}
                 placeholder="Voter ID number"
-                className="input-cyber w-full px-4 py-2.5 rounded-xl font-mono text-sm"
+                className="input-cyber w-full px-4 py-2.5 rounded-xl font-mono text-sm text-slate-200 placeholder:text-slate-500"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="font-mono text-xs text-slate-500">Driving License</label>
+              <label className="font-mono text-xs text-slate-400">Driving License</label>
               <input
                 value={form.identifiers.driving_license}
                 onChange={e => updateIdentifier('driving_license', e.target.value)}
                 placeholder="Driving license number"
-                className="input-cyber w-full px-4 py-2.5 rounded-xl font-mono text-sm"
+                className="input-cyber w-full px-4 py-2.5 rounded-xl font-mono text-sm text-slate-200 placeholder:text-slate-500"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="font-mono text-xs text-slate-500">Passport Number</label>
+              <label className="font-mono text-xs text-slate-400">Passport Number</label>
               <input
                 value={form.identifiers.passport_number}
                 onChange={e => updateIdentifier('passport_number', e.target.value)}
                 placeholder="Passport number"
-                className="input-cyber w-full px-4 py-2.5 rounded-xl font-mono text-sm"
+                className="input-cyber w-full px-4 py-2.5 rounded-xl font-mono text-sm text-slate-200 placeholder:text-slate-500"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="font-mono text-xs text-slate-500">Ration Card Number</label>
+              <label className="font-mono text-xs text-slate-400">Ration Card Number</label>
               <input
                 value={form.identifiers.ration_card_number}
                 onChange={e => updateIdentifier('ration_card_number', e.target.value)}
                 placeholder="Ration card number"
-                className="input-cyber w-full px-4 py-2.5 rounded-xl font-mono text-sm"
+                className="input-cyber w-full px-4 py-2.5 rounded-xl font-mono text-sm text-slate-200 placeholder:text-slate-500"
               />
             </div>
           </div>
@@ -587,14 +587,14 @@ function CredentialList() {
               fetchCredentials();
               fetchLogs();
             }}
-            className="btn-neon px-3 py-2 rounded-xl text-xs font-mono flex items-center gap-2"
+            className="btn-neon px-3 py-2 rounded-xl text-xs font-mono flex items-center gap-2 text-slate-300"
           >
             <FiRefreshCw size={14} />
             Refresh
           </button>
           <button
             onClick={() => setShowLogs(!showLogs)}
-            className="btn-neon px-3 py-2 rounded-xl text-xs font-mono flex items-center gap-2"
+            className="btn-neon px-3 py-2 rounded-xl text-xs font-mono flex items-center gap-2 text-slate-300"
           >
             <FiClock size={14} />
             {showLogs ? 'Hide Logs' : 'Show Logs'}
@@ -635,11 +635,11 @@ function CredentialList() {
                         
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
                           <div>
-                            <span className="text-slate-500">Holder ID:</span>
+                            <span className="text-slate-400">Holder ID:</span>
                             <span className="text-slate-300 font-mono ml-2">{log.holder_id}</span>
                           </div>
                           <div>
-                            <span className="text-slate-500">Timestamp:</span>
+                            <span className="text-slate-400">Timestamp:</span>
                             <span className="text-slate-300 ml-2">{formatDate(log.timestamp)}</span>
                           </div>
                         </div>
@@ -677,7 +677,7 @@ function CredentialList() {
                     <div className="font-mono text-sm font-semibold text-slate-200">
                       {cred.credential_id}
                     </div>
-                    <div className="font-mono text-xs text-slate-500">
+                    <div className="font-mono text-xs text-slate-400">
                       Type: {cred.credential_type} • Issued: {formatDate(cred.created_at)}
                     </div>
                   </div>
@@ -700,15 +700,15 @@ function CredentialList() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
-                <div className="text-slate-500">Holder ID:</div>
+                <div className="text-slate-400">Holder ID:</div>
                 <div className="text-slate-300 font-mono">{cred.holder_id}</div>
                 
-                <div className="text-slate-500">Hash ID:</div>
+                <div className="text-slate-400">Hash ID:</div>
                 <div className="text-slate-300 font-mono text-[10px] break-all">{cred.hash_id}</div>
                 
                 {cred.expires_at && (
                   <>
-                    <div className="text-slate-500">Expires:</div>
+                    <div className="text-slate-400">Expires:</div>
                     <div className="text-slate-300">{formatDate(cred.expires_at)}</div>
                   </>
                 )}

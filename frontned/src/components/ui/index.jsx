@@ -4,7 +4,7 @@ import { useState } from 'react';
 export function Spinner({ size = 20 }) {
   return (
     <svg className="spin" width={size} height={size} viewBox="0 0 24 24" fill="none">
-      <circle cx="12" cy="12" r="10" stroke="var(--c-accent)" strokeWidth="2.5" strokeOpacity=".2" />
+      <circle cx="12" cy="12" r="10" stroke="var(--c-accent)" strokeWidth="2.5" strokeOpacity=".25" />
       <path fill="var(--c-accent)" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
     </svg>
   );
@@ -36,9 +36,9 @@ export function Badge({ variant = 'info', children }) {
 export function StatCard({ label, value, icon, color = 'var(--c-accent)', loading }) {
   return (
     <div className="card card-hover" style={{ padding: 20 }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
         <span style={{ fontSize: 22 }}>{icon}</span>
-        <span className="label" style={{ margin: 0 }}>{label}</span>
+        <span className="label" style={{ margin: 0, color: 'var(--text-muted)' }}>{label}</span>
       </div>
       {loading
         ? <Skeleton style={{ height: 36, width: 80 }} />
@@ -51,7 +51,10 @@ export function StatCard({ label, value, icon, color = 'var(--c-accent)', loadin
 /* ─── Section Header ──────────────────────────────────────── */
 export function SectionHeader({ title, subtitle, action }) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 20px 14px', borderBottom: '1px solid var(--border-subtle)' }}>
+    <div style={{
+      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+      padding: '18px 20px 14px', borderBottom: '1px solid var(--border-subtle)'
+    }}>
       <div>
         <h2 style={{ fontFamily: 'Outfit,sans-serif', fontWeight: 700, fontSize: 15, color: 'var(--text-primary)', marginBottom: subtitle ? 2 : 0 }}>{title}</h2>
         {subtitle && <p className="mono" style={{ fontSize: 11, color: 'var(--text-muted)' }}>{subtitle}</p>}
@@ -80,13 +83,13 @@ export function ResultIndicator({ value, label }) {
       <div style={{ fontFamily: 'Outfit,sans-serif', fontWeight: 800, fontSize: 48, color: isTrue ? 'var(--c-green)' : 'var(--c-red)', lineHeight: 1 }}>
         {isTrue ? 'TRUE' : 'FALSE'}
       </div>
-      <div className="label" style={{ margin: 0 }}>{label}</div>
+      <div className="label" style={{ margin: 0, color: 'var(--text-muted)' }}>{label}</div>
     </div>
   );
 }
 
 /* ─── Field Input (with label + icon slot) ────────────────── */
-export function Field({ label, icon, children }) {
+export function Field({ label, icon, children, hint }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
       {label && <span className="label">{label}</span>}
@@ -98,6 +101,17 @@ export function Field({ label, icon, children }) {
         )}
         {children}
       </div>
+      {hint && <span className="hint">{hint}</span>}
+    </div>
+  );
+}
+
+/* ─── Info Row (key-value pair in cards) ──────────────────── */
+export function InfoRow({ label, value, mono = false }) {
+  return (
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 0', borderBottom: '1px solid var(--border-subtle)' }}>
+      <span style={{ fontSize: 12, color: 'var(--text-muted)', fontFamily: 'IBM Plex Mono,monospace', letterSpacing: '0.06em', textTransform: 'uppercase' }}>{label}</span>
+      <span style={{ fontSize: 13, color: 'var(--text-secondary)', fontFamily: mono ? 'IBM Plex Mono,monospace' : 'Outfit,sans-serif', fontWeight: 500 }}>{value}</span>
     </div>
   );
 }

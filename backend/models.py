@@ -1,13 +1,3 @@
-"""
-models.py — SQLAlchemy ORM models for TIV-HE.
-
-Tables:
-  - users
-  - credentials
-  - verification_tokens
-  - verification_logs
-"""
-
 from datetime import datetime, timezone
 from sqlalchemy import (
     Boolean, Column, DateTime, ForeignKey,
@@ -19,13 +9,13 @@ from utils.id_generator import generate_credential_id
 from database import Base
 
 
-# ── Helpers ─────────────────────────────────────────────────────────────
+# ── Helpers ───────────────────────────────────────────
 
 def utcnow():
     return datetime.now(timezone.utc)
 
 
-# ── User ────────────────────────────────────────────────────────────────
+# ── User ──────────────────────────────────────────────
 
 class User(Base):
     __tablename__ = "users"
@@ -38,6 +28,10 @@ class User(Base):
     password_hash = Column(String(255), nullable=False)
 
     role = Column(String(20), nullable=False)  # admin / issuer / holder / verifier
+
+    # ✅ NEW FIELD (ONLY USED FOR HOLDER)
+    default_share_fields = Column(JSON, nullable=True, default=list)
+
     is_approved = Column(Boolean, default=False, nullable=False)
     status = Column(String(20), default="pending", nullable=False)
     profile_picture = Column(String(500), nullable=True)
@@ -68,7 +62,7 @@ class User(Base):
     )
 
 
-# ── Credential ──────────────────────────────────────────────────────────
+# ── Credential ────────────────────────────────────────
 
 class Credential(Base):
     __tablename__ = "credentials"
@@ -82,31 +76,21 @@ class Credential(Base):
         default=generate_credential_id
     )
     hash_id = Column(String(64), unique=True, nullable=False, index=True)
-    holder_id = Column(
-        Integer,
-        ForeignKey("users.id"),
-        nullable=False,
-        index=True
-    )
 
-    issuer_id = Column(
-        Integer,
-        ForeignKey("users.id"),
-        nullable=False,
-        index=True
-    )
+    holder_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
+    issuer_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
 
     credential_type = Column(String(50), default="identity", nullable=False)
     encrypted_data = Column(JSON, nullable=False)
     revoked = Column(Boolean, default=False, nullable=False)
     expires_at = Column(DateTime(timezone=True), nullable=False)
+
     created_at = Column(
         DateTime(timezone=True),
         default=utcnow,
         server_default=text("CURRENT_TIMESTAMP"),
     )
 
-    # Relationships
     holder = relationship(
         "User",
         foreign_keys=[holder_id],
@@ -136,7 +120,7 @@ class Credential(Base):
     )
 
 
-# ── Verification Token ─────────────────────────────────────────────────
+# ── Verification Token ───────────────────────────────
 
 class VerificationToken(Base):
     __tablename__ = "verification_tokens"
@@ -151,7 +135,6 @@ class VerificationToken(Base):
     )
 
     manual_id = Column(String(6), unique=True, nullable=False, index=True)
-
     secure_token_hash = Column(String(255), nullable=False, index=True)
 
     created_at = Column(
@@ -169,47 +152,23 @@ class VerificationToken(Base):
     max_attempts = Column(Integer, default=3)
 
     status = Column(String(20), default="active", index=True)
-    # active | expired | used
 
-    # Relationship
-    credential = relationship(
-        "Credential",
-        back_populates="tokens"
-    )
+    credential = relationship("Credential", back_populates="tokens")
 
 
-# ── Verification Log ───────────────────────────────────────────────────
+# ── Verification Log ─────────────────────────────────
 
 class VerificationLog(Base):
     __tablename__ = "verification_logs"
 
     id = Column(Integer, primary_key=True, index=True)
 
-    holder_id = Column(
-        Integer,
-        ForeignKey("users.id"),
-        nullable=False,
-        index=True
-    )
-
-    verifier_id = Column(
-        Integer,
-        ForeignKey("users.id"),
-        nullable=False,
-        index=True
-    )
-
-    credential_id = Column(
-        Integer,
-        ForeignKey("credentials.id"),
-        nullable=False,
-        index=True
-    )
+    holder_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
+    verifier_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
+    credential_id = Column(Integer, ForeignKey("credentials.id"), nullable=False, index=True)
 
     manual_id = Column(String(6), nullable=False)
-
     condition = Column(String(500), nullable=True)
-
     result = Column(Boolean, nullable=False)
 
     timestamp = Column(
@@ -218,25 +177,13 @@ class VerificationLog(Base):
         server_default=text("CURRENT_TIMESTAMP"),
     )
 
-    # Relationships
-    credential = relationship(
-        "Credential",
-        back_populates="logs"
-    )
+    credential = relationship("Credential", back_populates="logs")
+    verifier = relationship("User", foreign_keys=[verifier_id], back_populates="verification_logs")
+    holder = relationship("User", foreign_keys=[holder_id])
 
-    verifier = relationship(
-        "User",
-        foreign_keys=[verifier_id],
-        back_populates="verification_logs"
-    )
 
-    holder = relationship(
-        "User",
-        foreign_keys=[holder_id]
-    )
-    
-    
-    
+# ── Admin Log ───────────────────────────────────────
+
 class AdminLog(Base):
     __tablename__ = "admin_logs"
 
@@ -245,14 +192,19 @@ class AdminLog(Base):
     target_user_id = Column(Integer, ForeignKey("users.id"), nullable=True)
     performed_by = Column(Integer, ForeignKey("users.id"), nullable=False)
     details = Column(String(255), nullable=True)
+
     timestamp = Column(
         DateTime(timezone=True),
         default=utcnow,
         server_default=text("CURRENT_TIMESTAMP"),
     )
+
     admin = relationship("User", foreign_keys=[performed_by])
     target_user = relationship("User", foreign_keys=[target_user_id])
-    
+
+
+# ── Issuer Log ──────────────────────────────────────
+
 class IssuerActionLog(Base):
     __tablename__ = "issuer_action_logs"
 
@@ -263,6 +215,7 @@ class IssuerActionLog(Base):
     credential_id = Column(Integer, ForeignKey("credentials.id"), nullable=False)
 
     action = Column(String(20), nullable=False)
+
     timestamp = Column(
         DateTime(timezone=True),
         default=utcnow,

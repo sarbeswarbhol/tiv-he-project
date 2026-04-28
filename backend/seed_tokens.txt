@@ -1,120 +1,208 @@
 
 ============================================================
-SEED RUN @ 2026-04-19 13:24:23.341474
+SEED RUN @ 2026-04-28 16:46:44.056828
 ============================================================
 
 ============================================================
-SEED RUN @ 2026-04-19 13:25:54.682420
+SEED RUN @ 2026-04-28 17:03:17.763516
 ============================================================
 email: admin@test.com
 password: admin123
 role: admin
-access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwicm9sZSI6ImFkbWluIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc3NjY3MTc1Nn0.ONLWvLR_43749EzJqRpzY-jro1S1nZMZ692YgsQjHgM
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwicm9sZSI6ImFkbWluIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc3NzQ2MjM5OX0.0r0F_ioGdDrU-nCeRoTejrse9qzV--xZLKHy1OSidj8
 ----------------------------------------
 email: issuer@test.com
 password: issuer123
 role: issuer
-access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwicm9sZSI6Imlzc3VlciIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NzY2NzE3NTh9.8gXIrAxweHbLco3Fcv0Wueox9SkXoCvgh9kOPTIIBXI
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwicm9sZSI6Imlzc3VlciIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3Nzc0NjI0MDF9.5WhdrKHEoLF4SOsUyI4tENK6KN82Kuxen2fsMbVgtwI
 ----------------------------------------
 email: holder@test.com
 password: holder123
 role: holder
-access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzIiwicm9sZSI6ImhvbGRlciIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NzY2NzE3NjB9.RyE06_OjOTTipMeDmXO4irZp4K50J0Gyn5DtkKbatO0
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzIiwicm9sZSI6ImhvbGRlciIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3Nzc0NjI0MDN9.gmFaWd1uREeRxszWB-GCj65vZ0-wStZsNxoinE70jPU
 ----------------------------------------
 email: verifier@test.com
 password: verifier123
 role: verifier
-access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0Iiwicm9sZSI6InZlcmlmaWVyIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc3NjY3MTc2MX0.3PfnHGMzrtP5sRSFGUUFirSAukaEos5vSyBhdzxH_OQ
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0Iiwicm9sZSI6InZlcmlmaWVyIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc3NzQ2MjQwNH0.5lvsOR4Nkp-8QBB9Ga4AZaidhzzUkANkCnhcoZZzwZY
 ----------------------------------------
 email: admin_na@test.com
 password: admin123
 role: admin
-access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Iiwicm9sZSI6ImFkbWluIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc3NjY3MTc2M30.mieldwjjCzjS_R1LON3UDPSzPAlanI9pvRkP6mZyDEM
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Iiwicm9sZSI6ImFkbWluIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc3NzQ2MjQwNn0.PybIl7DEdfAxz3NG-_irFVXxFjURGDyd_0URSDwF3Gc
 ----------------------------------------
 email: issuer_na@test.com
 password: issuer123
 role: issuer
-access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Iiwicm9sZSI6Imlzc3VlciIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NzY2NzE3NjR9.yLVtpB0MsdBBg6vwxAQSjCTunHCxC0ZSzg5Yy59ofzU
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Iiwicm9sZSI6Imlzc3VlciIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3Nzc0NjI0MDh9.2F1OScqSUbhZ0Nc_KOP0wFTFxheywb5YCY9nHhytyQs
 ----------------------------------------
 email: holder_na@test.com
 password: holder123
 role: holder
-access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3Iiwicm9sZSI6ImhvbGRlciIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NzY2NzE3NjZ9.4xks_iDrTvIGu3oHfdUkUDmeNQY1Xf2hbY_8cedv0YE
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3Iiwicm9sZSI6ImhvbGRlciIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3Nzc0NjI0MTF9.LKbtoajoj2DhQLma9_yKeFvI0_6iykW7lYkDsjVF-LM
 ----------------------------------------
 email: verifier_na@test.com
 password: verifier123
 role: verifier
-access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4Iiwicm9sZSI6InZlcmlmaWVyIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc3NjY3MTc2OH0.qEsJfEajnlBc2eEocykW471I96N4XbtzAClCD4HNDn8
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4Iiwicm9sZSI6InZlcmlmaWVyIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc3NzQ2MjQxM30.ByCOSr6zHm7K39JHmG0lCt-pgJ0tKtmD5Jlo_GSRbug
 ----------------------------------------
 
 ============================================================
-SEED RUN @ 2026-04-19 17:06:51.064075
+SEED RUN @ 2026-04-28 17:15:20.638731
 ============================================================
 
 ============================================================
-SEED RUN @ 2026-04-19 17:09:54.920619
+SEED RUN @ 2026-04-28 17:15:47.543053
 ============================================================
 
 ============================================================
-SEED RUN @ 2026-04-19 17:19:50.179389
+SEED RUN @ 2026-04-28 17:16:14.064269
 ============================================================
 
 ============================================================
-SEED RUN @ 2026-04-27 22:28:09.293175
-============================================================
-
-============================================================
-SEED RUN @ 2026-04-28 14:58:05.125026
-============================================================
-
-============================================================
-SEED RUN @ 2026-04-28 15:12:43.526927
+SEED RUN @ 2026-04-28 17:18:01.892466
 ============================================================
 email: admin@test.com
 password: admin123
 role: admin
-access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwicm9sZSI6ImFkbWluIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc3NzQ1NTc2NX0.0gQlnt9Is3BjNOwc33msLvqaggadhccQ50Ow34rMnqk
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwicm9sZSI6ImFkbWluIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc3NzQ2MzI4M30.hKwQxWYNW-OMN9vephWYuH2BnVpE5vwhZ5RcudkyyHA
 ----------------------------------------
 email: issuer@test.com
 password: issuer123
 role: issuer
-access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwicm9sZSI6Imlzc3VlciIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3Nzc0NTU3NjZ9.B4Mevc666m0eVI_3MhShMuhahht26JdGIGtxG4qVFPw
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwicm9sZSI6Imlzc3VlciIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3Nzc0NjMyODV9.6Cu5d6eaqDV5MyuztHg3dxDqD7DgUkcKDJhu9Ojliyo
 ----------------------------------------
 email: holder@test.com
 password: holder123
 role: holder
-access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzIiwicm9sZSI6ImhvbGRlciIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3Nzc0NTU3Njd9.vL3E4Jf3RM_tOFfyvHbhQp6ys0ndUsFJZeX_QSYz_Uw
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzIiwicm9sZSI6ImhvbGRlciIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3Nzc0NjMyODZ9.G9khZSTf7-iUaZb31iQvqELqJoRV8I4bXWXVAIBApGc
 ----------------------------------------
 email: verifier@test.com
 password: verifier123
 role: verifier
-access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0Iiwicm9sZSI6InZlcmlmaWVyIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc3NzQ1NTc2OH0.07F74VOgoU97J8e-7PY06xKKx4HCIcih0AOK33PAHhs
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0Iiwicm9sZSI6InZlcmlmaWVyIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc3NzQ2MzI4OH0.gO6awcGNso4-A1m7iFvfy0J_UcoDcCy_5jOaHg4LHsI
 ----------------------------------------
 email: admin_na@test.com
 password: admin123
 role: admin
-access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Iiwicm9sZSI6ImFkbWluIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc3NzQ1NTc3MH0.zqOFXOOvtD8f_fl9_P1976qlfVFlZMgiosYjy2tA6OE
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Iiwicm9sZSI6ImFkbWluIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc3NzQ2MzI4OX0.JL33EM99yExWI5DwVbmnEuTOqSGQzy4YsSYh0PjjLRI
 ----------------------------------------
 email: issuer_na@test.com
 password: issuer123
 role: issuer
-access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Iiwicm9sZSI6Imlzc3VlciIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3Nzc0NTU3NzF9.MZOERSHXcKfIWNQuo-YHB8m6pzbMzE86sOuCCwCu0EU
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Iiwicm9sZSI6Imlzc3VlciIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3Nzc0NjMyOTF9.hEicIUTWZMW1CxGesv19rKkKLvvyd1SjNOMXTNDKetk
 ----------------------------------------
 email: holder_na@test.com
 password: holder123
 role: holder
-access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3Iiwicm9sZSI6ImhvbGRlciIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3Nzc0NTU3NzJ9.fBUGjiBn1WQYq81KRUodIfkix8N41juqKW6ElPcG7p0
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3Iiwicm9sZSI6ImhvbGRlciIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3Nzc0NjMyOTJ9.jHDOEWcCa6ydKOO87-KUaOVlkPg9OyejSFAeLhDa1zg
 ----------------------------------------
 email: verifier_na@test.com
 password: verifier123
 role: verifier
-access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4Iiwicm9sZSI6InZlcmlmaWVyIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc3NzQ1NTc3M30.scSGCGKjBQqBRDJU0jzO2fveWsh_FU2yDMoPJnEyiQg
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4Iiwicm9sZSI6InZlcmlmaWVyIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc3NzQ2MzI5NH0.QeGp6Sip1zVC3f-VLt76yoTYLZVlJNJIR8VUwsUNsxU
 ----------------------------------------
 
 ============================================================
-SEED RUN @ 2026-04-28 15:38:08.070709
+SEED RUN @ 2026-04-28 17:22:31.820975
+============================================================
+email: admin@test.com
+password: admin123
+role: admin
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwicm9sZSI6ImFkbWluIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc3NzQ2MzU1M30.E1378rzwMom1clYfQmnKTUMul9RGpjBs3d781Ct4MgQ
+----------------------------------------
+email: issuer@test.com
+password: issuer123
+role: issuer
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwicm9sZSI6Imlzc3VlciIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3Nzc0NjM1NTV9.RELP02F2SucVE1ezXJsiR37A_4o3nKlw9zcKKBmjefA
+----------------------------------------
+email: holder@test.com
+password: holder123
+role: holder
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzIiwicm9sZSI6ImhvbGRlciIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3Nzc0NjM1NTZ9.EEVJGtNMS2E3yq5mCdNrSps1gGUjCxUhwdFJgQlFt1I
+----------------------------------------
+email: verifier@test.com
+password: verifier123
+role: verifier
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0Iiwicm9sZSI6InZlcmlmaWVyIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc3NzQ2MzU1OH0.EMWv0teeazadvQ-DoxudSjS03wr1M6pOJW7EHsDMK8M
+----------------------------------------
+email: admin_na@test.com
+password: admin123
+role: admin
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Iiwicm9sZSI6ImFkbWluIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc3NzQ2MzU1OX0.KJCzZp7LF8UiPYtsASVVYYU5kUmMfNdRp__AisoVxF0
+----------------------------------------
+email: issuer_na@test.com
+password: issuer123
+role: issuer
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Iiwicm9sZSI6Imlzc3VlciIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3Nzc0NjM1NjF9.lnjPPAfjmRU5yRgI6ScRueELWS8m2h0rtpJpfUkKI6g
+----------------------------------------
+email: holder_na@test.com
+password: holder123
+role: holder
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3Iiwicm9sZSI6ImhvbGRlciIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3Nzc0NjM1NjN9.4-VN_8X_SwbTBw9XbxtUrzxXu7wcEHg28rEVQT1kAc4
+----------------------------------------
+email: verifier_na@test.com
+password: verifier123
+role: verifier
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4Iiwicm9sZSI6InZlcmlmaWVyIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc3NzQ2MzU2NX0.R_gIfdXEvp4zVAvBAec0ZLIPrZbLFAv7qoq1TVtetNY
+----------------------------------------
+
+============================================================
+SEED RUN @ 2026-04-28 17:42:19.708271
 ============================================================
 
 ============================================================
-SEED RUN @ 2026-04-28 15:43:11.478237
+SEED RUN @ 2026-04-28 17:42:44.250555
 ============================================================
+
+============================================================
+SEED RUN @ 2026-04-28 17:43:14.962880
+============================================================
+
+============================================================
+SEED RUN @ 2026-04-28 17:43:38.915090
+============================================================
+
+============================================================
+SEED RUN @ 2026-04-28 17:45:42.130342
+============================================================
+email: admin@test.com
+password: admin123
+role: admin
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwicm9sZSI6ImFkbWluIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc3NzQ2NDk0M30.o_AsTPFPIMuDIlZGPXsV-NUWBgqhIHv4ISwyAoHe-CI
+----------------------------------------
+email: issuer@test.com
+password: issuer123
+role: issuer
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwicm9sZSI6Imlzc3VlciIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3Nzc0NjQ5NDV9.vhQBe4_5U8WHxHayM2jNEYjdBgNidzV5ySEMjiXtzUg
+----------------------------------------
+email: holder@test.com
+password: holder123
+role: holder
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzIiwicm9sZSI6ImhvbGRlciIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3Nzc0NjQ5NDZ9.Pa4X017ksoyie8EFMsqQ60-EfC97g9ZRcgvPl7-w9mo
+----------------------------------------
+email: verifier@test.com
+password: verifier123
+role: verifier
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0Iiwicm9sZSI6InZlcmlmaWVyIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc3NzQ2NDk0OH0.k2Z7BdvI9jc82p9CMswLQVBZ2tcnWSV-kuJIqfkxKE8
+----------------------------------------
+email: admin_na@test.com
+password: admin123
+role: admin
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Iiwicm9sZSI6ImFkbWluIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc3NzQ2NDk0OX0.eEVTyPrdO8RpkcsZBuyNAHrsznq9gxABCtlh00BC1NI
+----------------------------------------
+email: issuer_na@test.com
+password: issuer123
+role: issuer
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Iiwicm9sZSI6Imlzc3VlciIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3Nzc0NjQ5NTF9.LZYh_hSevIX4NBHJtlxZTsjyKQKIhaDfHpcC3ao9uHA
+----------------------------------------
+email: holder_na@test.com
+password: holder123
+role: holder
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3Iiwicm9sZSI6ImhvbGRlciIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3Nzc0NjQ5NTJ9.TDcw-dU304NVo3us1Ww90LetKMqM1N2iXA8b6Atpuqs
+----------------------------------------
+email: verifier_na@test.com
+password: verifier123
+role: verifier
+access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4Iiwicm9sZSI6InZlcmlmaWVyIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc3NzQ2NDk1M30.A5eYKwTLaFR67BiiLa-POxuIWqO8f-kPUS0fWQmLgYI
+----------------------------------------
