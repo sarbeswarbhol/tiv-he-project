@@ -10,7 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@yudiel/react-qr-scanner": "^2.5.1",
     "axios": "^1.15.0",
     "html5-qrcode": "^2.3.8",
     "jsqr": "^1.4.0",
@@ -21,6 +20,7 @@
     "react-dom": "^19.2.4",
     "react-hot-toast": "^2.6.0",
     "react-icons": "^5.6.0",
+    "react-qr-barcode-scanner": "^2.1.25",
     "react-router-dom": "^7.14.1"
   },
   "devDependencies": {

@@ -1,12 +1,17 @@
-# routes/holder.py
-
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from auth import require_role
 from database import get_db
 from models import Credential, User, VerificationLog, VerificationToken
-from schemas import CredentialSummary, HolderLogOut, UserOut, ShareLinkRequest, CredentialList
+from schemas import (
+    CredentialSummary,
+    HolderLogOut,
+    UserOut,
+    ShareLinkRequest,
+    CredentialList,
+    DefaultShareFieldsUpdate
+)
 from utils.id_generator import mask_identifier
 from services.encryption_service import decrypt_dict, decrypt_value
 from services import credential_service
@@ -23,6 +28,31 @@ def my_profile(holder: User = _holder):
     return holder
 
 
+# ── DEFAULT SHARE FIELDS (NEW FEATURE) ─────────────────
+
+@router.get("/default-fields")
+def get_default_fields(holder: User = _holder):
+    return {
+        "fields": holder.default_share_fields or []
+    }
+
+
+@router.put("/default-fields")
+def update_default_fields(
+    body: DefaultShareFieldsUpdate,
+    db: Session = Depends(get_db),
+    holder: User = _holder
+):
+    holder.default_share_fields = body.fields
+    db.commit()
+    db.refresh(holder)
+
+    return {
+        "message": "Default share fields updated",
+        "fields": holder.default_share_fields
+    }
+
+
 # ── List credentials ───────────────────────────────────
 
 @router.get("/credentials", response_model=list[CredentialList])
@@ -30,19 +60,18 @@ def list_credentials(db: Session = Depends(get_db), holder: User = _holder):
 
     creds = credential_service.get_holder_credentials(db, holder.id)
     return [
-            {
-                "credential_id": c.credential_id,
-                "hash_id": c.hash_id,
-                "credential_type": c.credential_type,
-                "holder_id": holder.public_id,
-                "issuer_id": c.issuer.public_id,
-                "expires_at": c.expires_at,
-                "created_at": c.created_at,
-                "revoked": c.revoked,
-            }
-            for c in creds
-        ]
-
+        {
+            "credential_id": c.credential_id,
+            "hash_id": c.hash_id,
+            "credential_type": c.credential_type,
+            "holder_id": holder.public_id,
+            "issuer_id": c.issuer.public_id,
+            "expires_at": c.expires_at,
+            "created_at": c.created_at,
+            "revoked": c.revoked,
+        }
+        for c in creds
+    ]
 
 
 # ── Single credential ──────────────────────────────────
@@ -62,11 +91,9 @@ def get_credential(
     if not cred:
         raise HTTPException(status_code=404, detail="Credential not found")
 
-    # 🔓 decrypt stored data
     data = decrypt_dict(cred.encrypted_data)
 
-    # 🔒 mask identifiers
-    
+    print("Decrypted credential data:", data)
     masked_identifiers = {
         k: mask_identifier(k, decrypt_value(v))
         for k, v in data.get("identifiers", {}).items()
@@ -83,7 +110,11 @@ def get_credential(
         "created_at": cred.created_at,
         "revoked": cred.revoked,
         "masked_identifiers": masked_identifiers,
+        "basic": data.get("basic", {}),
+        "attributes": data.get("attributes", {}),
     }
+
+
 # ── Refresh secure_token ───────────────────────────────
 
 @router.post("/credentials/{credential_id}/refresh")
@@ -99,7 +130,6 @@ def refresh_token(
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-    # 🔑 Get latest token
     token = (
         db.query(VerificationToken)
         .filter(VerificationToken.credential_id == cred.id)
@@ -114,6 +144,7 @@ def refresh_token(
     }
 
 
+# ── CREATE SHARE LINK (UPDATED LOGIC) ─────────────────
 
 @router.post("/credentials/{credential_id}/share-link")
 def create_share_link(
@@ -131,7 +162,15 @@ def create_share_link(
     if not cred:
         raise HTTPException(404, "Credential not found")
 
-    # 2. Generate token
+    # 2. Decide fields (🔥 NEW LOGIC)
+    if body.fields:
+        fields = body.fields
+    elif holder.default_share_fields:
+        fields = holder.default_share_fields
+    else:
+        fields = ["full_name"]  # safe fallback
+
+    # 3. Generate token
     cred, secure_token = credential_service.refresh_credential_token(
         db, credential_id, holder
     )
@@ -143,30 +182,31 @@ def create_share_link(
         .first()
     )
 
-    # 3. Encode what to share
+    # 4. Encode payload
     import json, base64
 
     payload = {
-        "fields": body.fields,
-        "conditions": body.condition
+        "fields": fields,
+        "conditions": body.conditions
     }
 
     encoded = base64.urlsafe_b64encode(
         json.dumps(payload).encode()
     ).decode()
 
-    # 4. Create link
+    # 5. Create link
     link = f"/verifier/verify-link?token={secure_token}&data={encoded}"
 
     return {
         "verification_link": link,
         "expires_at": token.expires_at,
-        "shared_fields": body.fields,
-        "condition": body.condition
+        "shared_fields": fields,
+        "conditions": body.conditions
     }
-    
-    
+
+
 # ── Verification history ───────────────────────────────
+
 @router.get("/logs", response_model=list[HolderLogOut])
 def my_verification_logs(db: Session = Depends(get_db), holder: User = _holder):
 

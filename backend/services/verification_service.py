@@ -1,5 +1,3 @@
-# services/verification_service.py
-
 import hashlib
 import re
 from datetime import datetime, timezone
@@ -13,12 +11,16 @@ from services import blockchain_service
 from services.encryption_service import get_attribute
 
 
-def verify_credential(db: Session, request: VerifyRequest, verifier: User):
-
+def verify_credential(
+    db: Session,
+    request: VerifyRequest,
+    verifier: User,
+    fields: Optional[List[str]] = None   # ✅ NEW
+):
     now = datetime.now(timezone.utc)
     token = None
 
-    # ── Mode 1: secure_token (STRONG) ─────────────────────
+    # ── Mode 1: secure_token ─────────────────────
     if request.secure_token:
         token_hash = hashlib.sha256(request.secure_token.encode()).hexdigest()
 
@@ -29,7 +31,7 @@ def verify_credential(db: Session, request: VerifyRequest, verifier: User):
         if not token:
             raise ValueError("Invalid secure_token")
 
-    # ── Mode 2: manual_id (WEAK) ──────────────────────────
+    # ── Mode 2: manual_id ────────────────────────
     elif request.manual_id:
         token = db.query(VerificationToken).filter_by(
             manual_id=request.manual_id
@@ -41,37 +43,37 @@ def verify_credential(db: Session, request: VerifyRequest, verifier: User):
     if not token:
         raise ValueError("Provide manual_id or secure_token")
 
-    # ── Consistency check ─────────────────────────────────
+    # ── Consistency check ────────────────────────
     if request.manual_id and request.secure_token:
         if token.manual_id != request.manual_id:
             raise ValueError("manual_id does not match secure_token")
 
     cred = token.credential
 
-    # ── Expiry check ─────────────────────────────────────
+    # ── Expiry check ─────────────────────────────
     if token.expires_at < now:
         token.status = "expired"
         db.commit()
         raise ValueError("Token expired")
 
-    # ── Used check ───────────────────────────────────────
+    # ── Used check ───────────────────────────────
     if token.is_used:
         raise ValueError("Token already used")
 
-    # ── Attempt tracking ─────────────────────────────────
+    # ── Attempt tracking ─────────────────────────
     token.attempt_count += 1
     if token.attempt_count > token.max_attempts:
         db.commit()
         raise ValueError("Too many attempts")
 
-    # ── Credential checks ────────────────────────────────
+    # ── Credential checks ────────────────────────
     if cred.revoked:
         raise ValueError("Credential revoked")
 
     if cred.expires_at < now:
         raise ValueError("Credential expired")
 
-    # ── Blockchain check ────────────────────────────────
+    # ── Blockchain check ────────────────────────
     trusted = blockchain_service.is_trusted_issuer(cred.issuer_id)
     issued = blockchain_service.is_issued(cred.hash_id)
     on_chain_revoked = blockchain_service.is_revoked(cred.hash_id)
@@ -81,29 +83,28 @@ def verify_credential(db: Session, request: VerifyRequest, verifier: User):
 
     blockchain_ok = trusted and issued and not on_chain_revoked
 
-    # ── MULTI-CONDITION SUPPORT (FIXED) ──────────────────
+    # ── MULTI-CONDITION SUPPORT ─────────────────
     results: List[ConditionResult] = []
 
     if request.conditions:
-        # ✅ FIX: Allow conditions for BOTH manual_id and secure_token
         for cond in request.conditions:
-            res = _evaluate_condition(cred, cond)
+            res = _evaluate_condition(cred, cond, fields)  # ✅ PASS fields
             results.append(ConditionResult(condition=cond, result=res))
 
-    # ── Final result ─────────────────────────────────────
+    # ── Final result ─────────────────────────────
     overall = blockchain_ok
 
     if results:
         overall = overall and all(r.result for r in results)
 
-    # ── Logging ─────────────────────────────────────────
+    # ── Logging ─────────────────────────────────
     combined_condition = None
     if request.conditions:
         combined_condition = ", ".join(request.conditions)
 
     _log(db, cred, verifier, token.manual_id, combined_condition, overall)
 
-    # ── Mark token as used ───────────────────────────────
+    # ── Mark token as used ──────────────────────
     token.is_used = True
     token.used_at = now
     token.status = "used"
@@ -120,7 +121,7 @@ def verify_credential(db: Session, request: VerifyRequest, verifier: User):
     )
 
 
-# ── Condition Evaluation ───────────────────────────────────────────────────────
+# ── Condition Evaluation ─────────────────────────────
 
 OPERATOR_ALIASES = {
     "gte": ">=",
@@ -132,7 +133,11 @@ OPERATOR_ALIASES = {
 }
 
 
-def _evaluate_condition(cred: Credential, condition: str) -> bool:
+def _evaluate_condition(
+    cred: Credential,
+    condition: str,
+    allowed_fields: Optional[List[str]] = None  # ✅ NEW
+) -> bool:
     condition = condition.strip().lower()
 
     field = op = raw_value = None
@@ -160,6 +165,10 @@ def _evaluate_condition(cred: Credential, condition: str) -> bool:
 
     if field is None or op is None:
         raise ValueError(f"Invalid condition format: {condition}")
+
+    # 🔒 CRITICAL SECURITY CHECK
+    if allowed_fields is not None and field not in allowed_fields:
+        raise ValueError(f"Access to field '{field}' is not allowed")
 
     actual = get_attribute(cred.encrypted_data, field)
     if actual is None:
@@ -189,7 +198,7 @@ def _coerce(actual, raw_value: str):
     return str(actual).lower(), raw_value.lower()
 
 
-# ── Logging ────────────────────────────────────────────────────────────────────
+# ── Logging ────────────────────────────────────────
 
 def _log(
     db: Session,
@@ -208,4 +217,4 @@ def _log(
         result=result,
     )
     db.add(log)
-    db.flush()  
+    db.flush()

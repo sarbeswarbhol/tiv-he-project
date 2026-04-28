@@ -37,7 +37,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           loading: {
             iconTheme: { primary: '#00d4ff', secondary: '#020408' },
           },
-          duration: 4000,
+          duration: 3000,
         }}
       />
     </BrowserRouter>

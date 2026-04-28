@@ -27,14 +27,14 @@ export default function QRModal({ credential, onClose }) {
         await QRCode.toCanvas(canvasRef.current, token, {
           width: 280,
           margin: 2,
-          color: { dark: '#00d4ff', light: '#060d14' },
+          color: { dark: '#000000', light: '#ffffff' },
           errorCorrectionLevel: 'H',
         });
       }
       // Also keep a data-URL for the <img> preview
       const url = await QRCode.toDataURL(token, {
         width: 280, margin: 2,
-        color: { dark: '#00d4ff', light: '#060d14' },
+        color: { dark: '#000000', light: '#ffffff' },
         errorCorrectionLevel: 'H',
       });
       setQrUrl(url);
@@ -258,7 +258,7 @@ export default function QRModal({ credential, onClose }) {
             style={{ borderColor: 'rgba(0,212,255,0.25)', background: 'rgba(0,212,255,0.04)' }}
           >
             <div className="font-mono text-xs text-slate-500 uppercase tracking-widest mb-2">
-              Manual ID (6-digit)
+              Manual ID (4-digit)
             </div>
             <div className="flex items-center gap-2">
               <code className="flex-1 font-mono text-3xl font-black text-cyan-300 tracking-[0.5em] text-center bg-slate-800/60 px-4 py-3 rounded-lg">

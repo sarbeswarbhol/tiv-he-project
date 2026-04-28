@@ -24,7 +24,7 @@ from services.seed_service import seed_database
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Create tables if they don't exist yet
-    # Base.metadata.drop_all(bind=engine) #Comment this line
+    Base.metadata.drop_all(bind=engine) #Comment this line
     Base.metadata.create_all(bind=engine)
     ensure_db_schema(engine)
     print("[startup] Database tables created / verified")

@@ -1,232 +1,363 @@
-import { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
-import { FiShield, FiUser, FiMail, FiLock, FiEye, FiEyeOff, FiZap, FiTag } from 'react-icons/fi';
+import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import {
+  FiShield,
+  FiUser,
+  FiMail,
+  FiLock,
+  FiEye,
+  FiEyeOff,
+  FiZap,
+} from "react-icons/fi";
+import { Spinner, Field } from "../components/ui/index";
+
+const ROLES = ["holder", "issuer", "verifier"];
 
 export default function RegisterPage() {
   const { register, loading } = useAuth();
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
-    name: '',
-    username: '',
-    email: '',
-    password: '',
-    role: 'holder',
+    name: "",
+    username: "",
+    email: "",
+    password: "",
+    role: "holder",
   });
+
   const [showPass, setShowPass] = useState(false);
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const update = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+
+  // ✅ RANDOM DATA FUNCTION
+  const fillRandomData = () => {
+    const rand = Math.floor(Math.random() * 10000);
+
+    setForm({
+      name: `Test User ${rand}`,
+      username: `user${rand}`,
+      email: `user${rand}@test.com`,
+      password: "test1234",
+      role: ROLES[Math.floor(Math.random() * ROLES.length)],
+    });
+
+    toast.success("Random test data filled ⚡");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const tid = toast.loading('Submitting registration request...');
+    const tid = toast.loading("Submitting registration...");
     const res = await register(form);
     toast.dismiss(tid);
 
     if (!res?.success) {
-      toast.error(res?.error || 'Registration failed');
+      toast.error(res?.error || "Registration failed");
       return;
     }
 
-    toast.success('Request submitted. Await admin approval.');
-    navigate('/login');
+    toast.success("Request submitted. Await admin approval.");
+    navigate("/login");
   };
 
   return (
     <div
-      className="min-h-screen bg-grid hex-bg flex items-center justify-center p-4 relative overflow-hidden"
+      className="app-bg"
       style={{
-        background:
-          'radial-gradient(ellipse at 20% 50%, rgba(0,212,255,0.06) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(124,58,237,0.08) 0%, transparent 60%), #020408',
-      }}
-    >
-      {/* Floating orbs */}
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 16,
+      }}>
+      {/* Glow orbs */}
       <div
-        className="absolute top-20 left-10 w-72 h-72 rounded-full opacity-10 blur-3xl pointer-events-none"
-        style={{ background: 'radial-gradient(circle, #00d4ff, transparent)' }}
+        style={{
+          position: "fixed",
+          top: "15%",
+          right: "8%",
+          width: 320,
+          height: 320,
+          borderRadius: "50%",
+          background:
+            "radial-gradient(circle, rgba(167,139,250,.07), transparent)",
+          filter: "blur(60px)",
+          pointerEvents: "none",
+        }}
       />
       <div
-        className="absolute bottom-20 right-10 w-96 h-96 rounded-full opacity-8 blur-3xl pointer-events-none"
-        style={{ background: 'radial-gradient(circle, #7c3aed, transparent)' }}
+        style={{
+          position: "fixed",
+          bottom: "15%",
+          left: "8%",
+          width: 400,
+          height: 400,
+          borderRadius: "50%",
+          background:
+            "radial-gradient(circle, rgba(45,212,191,.06), transparent)",
+          filter: "blur(70px)",
+          pointerEvents: "none",
+        }}
       />
 
-      <div className="w-full max-w-md relative z-10">
-        {/* Logo header */}
-        <div className="text-center mb-8">
+      <div
+        className="fade-up"
+        style={{
+          width: "100%",
+          maxWidth: 420,
+          position: "relative",
+          zIndex: 10,
+        }}>
+        {/* Logo */}
+        <div style={{ textAlign: "center", marginBottom: 24 }}>
           <div
-            className="inline-flex items-center justify-center w-20 h-20 rounded-2xl glass mb-5 float-anim"
-            style={{ boxShadow: '0 0 40px rgba(0,212,255,0.3)' }}
-          >
-            <FiShield size={36} className="neon-text" />
+            className="float"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 64,
+              height: 64,
+              borderRadius: 16,
+              background: "var(--bg-surface)",
+              border: "1px solid var(--border-accent)",
+              boxShadow: "0 0 28px var(--c-accent-glow)",
+              marginBottom: 14,
+            }}>
+            <FiShield size={26} style={{ color: "var(--c-accent)" }} />
           </div>
-          <h1 className="font-display text-3xl font-black tracking-widest neon-text mb-1">
+
+          <div
+            style={{
+              fontFamily: "Outfit,sans-serif",
+              fontWeight: 800,
+              fontSize: 24,
+              letterSpacing: "0.16em",
+              color: "var(--c-accent)",
+              marginBottom: 4,
+            }}>
             TIV-HE
-          </h1>
-          <p className="text-slate-400 font-mono text-xs tracking-widest uppercase">
-            Trustless Identity Verification
-          </p>
-          <div className="flex items-center justify-center gap-2 mt-3">
-            <span className="w-2 h-2 rounded-full bg-green-400 pulse-dot" />
-            <span className="font-mono text-xs text-slate-500">
-              Homomorphic Encryption Active
-            </span>
+          </div>
+
+          <div
+            className="mono"
+            style={{
+              fontSize: 11,
+              color: "var(--text-muted)",
+              letterSpacing: "0.12em",
+            }}>
+            NODE REGISTRATION
           </div>
         </div>
 
-        {/* Registration form */}
-        <form onSubmit={handleSubmit} className="glass rounded-2xl p-6 space-y-4">
-          <h2 className="font-display text-lg font-bold text-slate-200 tracking-wider mb-1">
-            Node Registration
-          </h2>
+        {/* Form */}
+        <div className="card card-accent" style={{ padding: 28 }}>
+          <div
+            style={{
+              fontFamily: "Outfit,sans-serif",
+              fontWeight: 700,
+              fontSize: 16,
+              marginBottom: 6,
+              color: "var(--text-primary)",
+            }}>
+            Create Account
+          </div>
 
-          {/* Disclaimer */}
-          <div className="text-xs font-mono text-amber-400 bg-amber-400/10 border border-amber-400/20 rounded-xl p-2.5 text-center">
+          {/* Warning */}
+          <div
+            className="mono"
+            style={{
+              fontSize: 11,
+              color: "var(--c-amber)",
+              background: "rgba(251,191,36,.08)",
+              border: "1px solid rgba(251,191,36,.22)",
+              borderRadius: 8,
+              padding: "8px 12px",
+              marginBottom: 20,
+              textAlign: "center",
+            }}>
             ⚠ Access requires admin approval
           </div>
 
-          {/* Full Name */}
-          <div className="space-y-1">
-            <label className="font-mono text-xs text-slate-500 uppercase tracking-widest">
-              Full Name
-            </label>
-            <div className="relative">
-              <FiUser className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={15} />
+          <form
+            onSubmit={handleSubmit}
+            style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            <Field label="Full Name" icon={<FiUser size={14} />}>
               <input
                 name="name"
-                onChange={handleChange}
+                value={form.name}
+                onChange={update}
                 placeholder="John Doe"
-                className="input-cyber w-full pl-10 pr-4 py-2.5 rounded-xl font-mono text-sm"
+                className="input input-icon"
                 required
               />
-            </div>
-          </div>
+            </Field>
 
-          {/* Username */}
-          <div className="space-y-1">
-            <label className="font-mono text-xs text-slate-500 uppercase tracking-widest">
-              Username
-            </label>
-            <div className="relative">
-              <FiUser className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={15} />
+            <Field label="Username" icon={<FiUser size={14} />}>
               <input
                 name="username"
-                onChange={handleChange}
+                value={form.username}
+                onChange={update}
                 placeholder="johndoe"
-                className="input-cyber w-full pl-10 pr-4 py-2.5 rounded-xl font-mono text-sm"
+                className="input input-icon"
                 required
               />
-            </div>
-          </div>
+            </Field>
 
-          {/* Email */}
-          <div className="space-y-1">
-            <label className="font-mono text-xs text-slate-500 uppercase tracking-widest">
-              Email Address
-            </label>
-            <div className="relative">
-              <FiMail className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={15} />
+            <Field label="Email Address" icon={<FiMail size={14} />}>
               <input
                 type="email"
                 name="email"
-                onChange={handleChange}
+                value={form.email}
+                onChange={update}
                 placeholder="user@example.com"
-                className="input-cyber w-full pl-10 pr-4 py-2.5 rounded-xl font-mono text-sm"
+                className="input input-icon"
                 required
               />
-            </div>
-          </div>
+            </Field>
 
-          {/* Password */}
-          <div className="space-y-1">
-            <label className="font-mono text-xs text-slate-500 uppercase tracking-widest">
-              Password
-            </label>
-            <div className="relative">
-              <FiLock className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={15} />
+            <Field label="Password" icon={<FiLock size={14} />}>
               <input
-                type={showPass ? 'text' : 'password'}
+                type={showPass ? "text" : "password"}
                 name="password"
-                onChange={handleChange}
+                value={form.password}
+                onChange={update}
                 placeholder="••••••••••••"
-                className="input-cyber w-full pl-10 pr-11 py-2.5 rounded-xl font-mono text-sm"
+                className="input input-icon"
+                style={{ paddingRight: 40 }}
                 required
               />
               <button
                 type="button"
                 onClick={() => setShowPass(!showPass)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
-              >
-                {showPass ? <FiEyeOff size={15} /> : <FiEye size={15} />}
+                style={{
+                  position: "absolute",
+                  right: 12,
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  color: "var(--text-muted)",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  display: "flex",
+                }}>
+                {showPass ? <FiEyeOff size={14} /> : <FiEye size={14} />}
               </button>
-            </div>
-          </div>
+            </Field>
 
-          {/* Role */}
-          <div className="space-y-1">
-            <label className="font-mono text-xs text-slate-500 uppercase tracking-widest">
-              Node Role
-            </label>
-            <div className="relative">
-              <FiTag className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={15} />
-              <select
-                name="role"
-                value={form.role}
-                onChange={handleChange}
-                className="input-cyber w-full pl-10 pr-4 py-2.5 rounded-xl font-mono text-sm appearance-none cursor-pointer"
-              >
-                <option value="holder">Holder</option>
-                <option value="issuer">Issuer</option>
-                <option value="verifier">Verifier</option>
-              </select>
-              <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-                <svg className="w-3 h-3 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                </svg>
+            {/* Role selector */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+              <span className="label">Node Role</span>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(3,1fr)",
+                  gap: 7,
+                }}>
+                {ROLES.map((r) => (
+                  <button
+                    key={r}
+                    type="button"
+                    onClick={() => setForm({ ...form, role: r })}
+                    style={{
+                      padding: "8px 4px",
+                      borderRadius: 8,
+                      fontSize: 12,
+                      fontWeight: 600,
+                      fontFamily: "IBM Plex Mono,monospace",
+                      cursor: "pointer",
+                      transition: "all .15s",
+                      textTransform: "capitalize",
+                      border: `1px solid ${
+                        form.role === r
+                          ? "var(--border-accent)"
+                          : "var(--border-subtle)"
+                      }`,
+                      background:
+                        form.role === r
+                          ? "var(--c-accent-dim)"
+                          : "var(--bg-surface)",
+                      color:
+                        form.role === r
+                          ? "var(--c-accent)"
+                          : "var(--text-muted)",
+                    }}>
+                    {r}
+                  </button>
+                ))}
               </div>
             </div>
-          </div>
 
-          {/* Submit button */}
-          <button
-            type="submit"
-            disabled={loading}
-            className="btn-solid w-full py-3 rounded-xl font-display font-bold tracking-widest text-sm text-white flex items-center justify-center gap-2 mt-4"
-          >
-            {loading ? (
-              <>
-                <svg className="cyber-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
-                </svg>
-                Processing...
-              </>
-            ) : (
-              <>
-                <FiZap size={16} /> Request Access
-              </>
-            )}
-          </button>
-        </form>
+            {/* 🎲 RANDOM BUTTON */}
+            <button
+              type="button"
+              onClick={fillRandomData}
+              className="btn"
+              style={{
+                width: "100%",
+                padding: "10px",
+                fontSize: 13,
+                background: "var(--bg-surface)",
+                border: "1px dashed var(--border-accent)",
+                color: "var(--c-accent)",
+                cursor: "pointer",
+              }}>
+              🎲 Fill Random Data
+            </button>
 
-        {/* Login link */}
-        <p className="text-center font-mono text-xs text-slate-500 mt-4">
-          Already have access?{' '}
+            {/* SUBMIT */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn btn-primary"
+              style={{
+                width: "100%",
+                padding: "12px",
+                fontSize: 14,
+                marginTop: 6,
+              }}>
+              {loading ? (
+                <>
+                  <Spinner size={15} /> Processing...
+                </>
+              ) : (
+                <>
+                  <FiZap size={14} /> Request Access
+                </>
+              )}
+            </button>
+          </form>
+        </div>
+
+        <div style={{ textAlign: "center", marginTop: 16 }}>
           <span
-            onClick={() => navigate('/login')}
-            className="text-cyan-400 cursor-pointer hover:underline"
-          >
-            Login
+            className="mono"
+            style={{ fontSize: 12, color: "var(--text-muted)" }}>
+            Already have access?{" "}
+            <span
+              onClick={() => navigate("/login")}
+              style={{
+                color: "var(--c-accent)",
+                cursor: "pointer",
+                textDecoration: "underline",
+              }}>
+              Login
+            </span>
           </span>
-        </p>
+        </div>
 
-        <p className="text-center font-mono text-xs text-slate-600 mt-6">
+        <div
+          className="mono"
+          style={{
+            textAlign: "center",
+            fontSize: 10,
+            color: "var(--text-muted)",
+            marginTop: 18,
+            opacity: 0.6,
+          }}>
           Zero-knowledge · End-to-end encrypted · Blockchain anchored
-        </p>
+        </div>
       </div>
     </div>
   );

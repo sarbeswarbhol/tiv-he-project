@@ -6,6 +6,9 @@ pip install -r requirements.txt
 
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
 
+use this below command if you want to access the backend from other devices in the same network (e.g. for testing on mobile):
+uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
 
 cd frontend
 npm install

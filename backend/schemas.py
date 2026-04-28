@@ -8,9 +8,9 @@ from __future__ import annotations
 
 from datetime import datetime
 from enum import Enum
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 
-from pydantic import BaseModel, EmailStr, field_validator, model_validator
+from pydantic import BaseModel, EmailStr, field_validator, model_validator, Field
 import re
 
 
@@ -92,8 +92,10 @@ class UserOut(BaseModel):
     status: str
     profile_picture: Optional[str] = None
     created_at: datetime
+    default_share_fields: Optional[List[str]] = None
 
     model_config = {"from_attributes": True}
+
 
 
 # ═══════════════════════════════════════════════════════
@@ -247,6 +249,8 @@ class CredentialSummary(BaseModel):
     issuer_id: str
     holder_id: Optional[str] = None
     masked_identifiers: dict[str, str] = {}
+    basic: Dict[str, Any] = Field(default_factory=dict)
+    attributes: Dict[str, Any] = Field(default_factory=dict)
 
     model_config = {"from_attributes": True}
 
@@ -374,25 +378,40 @@ class AdminLogOut(BaseModel):
 # ═══════════════════════════════════════════════════════
 # SHARE LINK
 # ═══════════════════════════════════════════════════════
-
 class ShareLinkRequest(BaseModel):
     fields: Optional[List[str]] = None
-    conditions: Optional[str] = None
+    conditions: Optional[List[str]] = None
 
     @field_validator("fields")
     @classmethod
     def normalize_fields(cls, v):
         if v is None:
             return v
-        return [f.strip().lower() for f in v]
-    
+
+        cleaned = []
+        for f in v:
+            f = f.strip().lower()
+            if f not in ALLOWED_SHARE_FIELDS:
+                raise ValueError(f"Invalid field: {f}")
+            cleaned.append(f)
+
+        return cleaned
+
     @field_validator("conditions")
     @classmethod
-    def validate_condition(cls, v):
+    def normalize_conditions(cls, v):
         if v is None:
             return v
-        return v.strip().lower()
-    
+
+        if isinstance(v, str):
+            v = [v]
+
+        cleaned = []
+        for cond in v:
+            cond = cond.strip().lower()
+            cleaned.append(cond)
+
+        return cleaned 
     
     
 class CredentialList(BaseModel):
