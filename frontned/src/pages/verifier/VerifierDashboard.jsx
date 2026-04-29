@@ -276,7 +276,7 @@ function VerifyFlow() {
                 </div>
               )}
               <p className="font-mono text-xs text-slate-600">
-                Enter the 6-char Manual ID from holder's QR modal, or paste the full secure token
+                Enter the 4-char Manual ID from holder's QR modal, or paste the full secure token
               </p>
             </div>
           )}
