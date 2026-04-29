@@ -244,14 +244,14 @@ function VerifyFlow() {
             /* Manual ID entry */
             <div className="space-y-3">
               <label className="font-mono text-xs text-slate-500 uppercase tracking-widest block">
-                Manual ID (6 chars) or full Secure Token
+                Manual ID (4 chars) or full Secure Token
               </label>
               <input
                 type="text"
                 value={manualInput}
                 onChange={e => { setManualInput(e.target.value); setTokenPayload(null); }}
                 onKeyDown={e => e.key === 'Enter' && handleManualSubmit()}
-                placeholder="e.g. A1B2C3"
+                placeholder="e.g. A1B2"
                 maxLength={512}
                 className="input-cyber w-full px-4 py-3 rounded-xl font-mono text-lg tracking-[0.3em] text-center uppercase"
                 autoFocus
